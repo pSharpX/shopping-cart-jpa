@@ -1,13 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pe.edu.cibertec.main;
+
+import java.util.Random;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
 import pe.edu.cibertec.dominio.Producto;
 import pe.edu.cibertec.dominio.Usuario;
 import pe.edu.cibertec.repositorio.CarritoCompraRepositorio;
@@ -19,12 +17,7 @@ import pe.edu.cibertec.repositorio.impl.CategoriaJpaRepositorioImpl;
 import pe.edu.cibertec.repositorio.impl.ProductoJpaRepositorioImpl;
 import pe.edu.cibertec.repositorio.impl.UsuarioJpaRepositorioImpl;
 
-/**
- *
- * @author Java-LM
- */
-public class Principal {
-
+public class PrincipalTest {
 	public static void main(String[] args) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("labtest");
 		EntityManager em = emf.createEntityManager();
@@ -38,17 +31,20 @@ public class Principal {
 		});
 
 		UsuarioRepositorio usuarioRepositorio = new UsuarioJpaRepositorioImpl().setEntityManager(em);
+		Random random = new Random();
+		
+		for (int i = 0; i < 10; i++) {
+			Usuario nuevo = new Usuario();
+			nuevo.setNombre("Carlos " + random.nextInt(100));
+			nuevo.setApellido("Perez " + random.nextInt(100));
+			usuarioRepositorio.crear(nuevo);	
+		}		
 		Usuario usuario = usuarioRepositorio.buscar(1L);
-
 		if (usuario != null) {
 			System.out.printf("Usuario: %d %s %s %d\n", usuario.getId(), usuario.getNombre(), usuario.getApellido(),
 					usuario.getEdad());
-		}
-
-		// Usuario nuevo = new Usuario();
-		// nuevo.setNombre("Carlos");
-		// nuevo.setApellido("Perez");
-		// usuarioRepositorio.crear(nuevo);
+		}		
+		
 		ProductoRepositorio productoRepositorio = new ProductoJpaRepositorioImpl().setEntityManager(em);
 		productoRepositorio.obtenerTodos().forEach(p -> {
 			System.out.printf("Producto: %s, Categoria: %s\n", p.getNombre(), p.getCategoria().getNombre());
@@ -58,18 +54,7 @@ public class Principal {
 		if (producto != null) {
 		System.out.printf("Producto: %s - Categoria: %s\n", producto.getNombre(), producto.getCategoria().getNombre());
 		}
-		CarritoCompraRepositorio carritoRepositorio = new CarritoCompraJpaRepositorioImpl().setEntityManager(em);
-
-		carritoRepositorio.buscarPorUsuario(1L).forEach(c -> {
-			System.out.printf("Carrito: %d - Usuario: %s\n", c.getId(), c.getUsuario().getApellido());
-			System.out.println("----------------------------------------");
-
-			c.getDetalleCarrito().forEach(dc -> {
-				System.out.printf("Producto: %s - Categoria: %s - Cantidad: %d - Precio: %s\n",
-						dc.getProducto().getNombre(), dc.getProducto().getCategoria().getNombre(), dc.getCantidad(),
-						dc.getPrecioUnitario());
-			});
-		});
+		
 		productoRepositorio.obtenerPorCategoriaCriteriaApi(1L).forEach(p -> {
 			System.out.printf("Producto: %s - Categoria: %s\n", p.getNombre(), p.getCategoria().getNombre());
 		});
