@@ -11,9 +11,11 @@ import javax.persistence.Persistence;
 import pe.edu.cibertec.dominio.Producto;
 import pe.edu.cibertec.dominio.Usuario;
 import pe.edu.cibertec.repositorio.CarritoCompraRepositorio;
+import pe.edu.cibertec.repositorio.CategoriaRepositorio;
 import pe.edu.cibertec.repositorio.ProductoRepositorio;
 import pe.edu.cibertec.repositorio.UsuarioRepositorio;
 import pe.edu.cibertec.repositorio.impl.CarritoCompraJpaRepositorioImpl;
+import pe.edu.cibertec.repositorio.impl.CategoriaJpaRepositorioImpl;
 import pe.edu.cibertec.repositorio.impl.ProductoJpaRepositorioImpl;
 import pe.edu.cibertec.repositorio.impl.UsuarioJpaRepositorioImpl;
 
@@ -28,6 +30,15 @@ public class Principal {
         EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
+        
+        CategoriaRepositorio categoriaRepositorio
+        = new CategoriaJpaRepositorioImpl().setEntityManager(em);
+        
+        categoriaRepositorio.obtenerTodos()
+        .forEach(c -> {
+            System.out.printf("Categoria: %s\n", c.getNombre());
+        });
+        
         UsuarioRepositorio usuarioRepositorio
                 = new UsuarioJpaRepositorioImpl().setEntityManager(em);
         Usuario usuario = usuarioRepositorio.buscar(1L);

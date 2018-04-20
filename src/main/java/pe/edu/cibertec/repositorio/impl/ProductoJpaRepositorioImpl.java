@@ -59,5 +59,20 @@ public class ProductoJpaRepositorioImpl implements ProductoRepositorio {
         TypedQuery<Producto> query = this.em.createQuery(cq);
         return query.getResultList();
     }
+
+	@Override
+	public void crear(Producto producto) {
+		this.em.persist(producto);		
+	}
+
+	@Override
+	public void actualizar(Producto producto) {
+		this.em.merge(producto);		
+	}
+
+	@Override
+	public void eliminar(Producto producto) {
+		this.em.remove(producto);		
+	}
     
 }

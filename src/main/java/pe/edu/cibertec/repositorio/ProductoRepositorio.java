@@ -6,6 +6,7 @@
 package pe.edu.cibertec.repositorio;
 
 import java.util.List;
+
 import pe.edu.cibertec.dominio.Producto;
 
 /**
@@ -17,4 +18,7 @@ public interface ProductoRepositorio {
     List<Producto> obtenerTodos();
     List<Producto> obtenerPorCategoria(Long idCategoria);
     List<Producto> obtenerPorCategoriaCriteriaApi(Long idCategoria);
+    void crear(Producto producto);
+    void actualizar(Producto producto);
+    void eliminar(Producto producto);
 }
