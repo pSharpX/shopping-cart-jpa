@@ -26,7 +26,7 @@ import pe.edu.cibertec.repositorio.impl.UsuarioJpaRepositorioImpl;
 public class Principal {
 
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("labtest");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("labjpa");
 		EntityManager em = emf.createEntityManager();
 
 		em.getTransaction().begin();
